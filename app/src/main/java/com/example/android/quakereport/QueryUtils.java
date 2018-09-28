@@ -53,6 +53,11 @@ public final class QueryUtils {
         URL url = createUrl(requestUrl);
 
         //Perform HTTP request to the URL and receive a JSON response back
+        try {
+            Thread.sleep(2000);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
