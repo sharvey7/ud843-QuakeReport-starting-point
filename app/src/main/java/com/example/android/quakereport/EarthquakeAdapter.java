@@ -20,12 +20,11 @@ import java.util.Date;
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     private static final String LOCATION_SEPERATOR = "of";
 
-    private int mColorResourceId;
 
-    int getMagnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude1);
-    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquakes, int colorResourceId ){
+
+    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquakes ){
         super(context, 0, earthquakes);
-        mColorResourceId = colorResourceId;
+        //mColorResourceId = colorResourceId;
 
     }
    public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent){

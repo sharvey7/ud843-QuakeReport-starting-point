@@ -18,11 +18,11 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.android.quakereport.EarthquakeActivity.LOG_TAG;
-
-public class QueryUtils {
 
 
+public final class QueryUtils {
+
+    private static final String LOG_TAG = QueryUtils.class.getName();
     /** Sample JSON response for a USGS query */
     private static final String SAMPLE_JSON_RESPONSE = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10" ;
 
@@ -46,6 +46,25 @@ public class QueryUtils {
     private QueryUtils() {
 
     }
+    //tag gor the log messages
+
+    public static List<Earthquake> fetchEarthquakeData(String requestUrl) {
+        //Create url object
+        URL url = createUrl(requestUrl);
+
+        //Perform HTTP request to the URL and receive a JSON response back
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+        }
+        //extract relevant fields from JSON response and create a list of @link Earthquakes
+        List<Earthquake> earthquakes = extractFeatureFromJson(jsonResponse);
+        //return the list of earthquakes
+        return earthquakes;
+    }
+
 
     private static URL createUrl(String stringUrl){
         URL url = null;
@@ -117,7 +136,7 @@ public class QueryUtils {
             return null;
         }
         // Create an empty ArrayList that we can start adding earthquakes to
-        ArrayList<Earthquake> earthquakes = new ArrayList<>();
+        List<Earthquake> earthquakes = new ArrayList<>();
 
         // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -126,8 +145,8 @@ public class QueryUtils {
 
             // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
             // build up a list of Earthquake objects with the corresponding data.
-            JSONObject baseJasonResponse = new JSONObject(SAMPLE_JSON_RESPONSE);
-            JSONArray earthquakeArray = baseJasonResponse.getJSONArray("features");
+            JSONObject baseJsonResponse = new JSONObject(earthquakeJSON);
+            JSONArray earthquakeArray = baseJsonResponse.getJSONArray("features");
 
             for(int i = 0; i< earthquakeArray.length(); i++){
                 JSONObject currentEarthquake = earthquakeArray.getJSONObject(i);
@@ -159,16 +178,4 @@ public class QueryUtils {
         return earthquakes;
     }
 
-    public static List<Earthquake> fetchEarthquakeData(String requestUrl){
-        URL url = createUrl(requestUrl);
-
-        String jsonResponse = null;
-        try {
-            jsonResponse = makeHttpRequest(url);
-        } catch (IOException e){
-            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
-        }
-        List<Earthquake> earthquakes = extractFeatureFromJson(jsonResponse);
-        return earthquakes;
-    }
 }

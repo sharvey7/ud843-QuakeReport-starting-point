@@ -11,33 +11,43 @@ import java.util.List;
  */
 public class Earthquake {
     private String mLocation;
-   // private String mDate;
+    // private String mDate;
     private long mTimeInMilliseconds;
     private double mMagnitude;
     private String mUrl;
 
-    public Earthquake( double magnitude,String location, long timeInMillisseconds, String url){
+    public Earthquake(double magnitude, String location, long timeInMillisseconds, String url) {
         mLocation = location;
         mTimeInMilliseconds = timeInMillisseconds;
         mMagnitude = magnitude;
         mUrl = url;
     }
 
-    public double getMagnitude(){
+    public double getMagnitude() {
         return mMagnitude;
     }
 
-    public String getLocation(){
+    public String getLocation() {
         return mLocation;
     }
-  //  public String getDate(){
-   //     return mDate;
+
+    //  public String getDate(){
+    //     return mDate;
     //}
-    public long getTimeInMilliseconds(){
+    public long getTimeInMilliseconds() {
         return mTimeInMilliseconds;
     }
-    public String getUrl(){
+
+    public String getUrl() {
         return mUrl;
+
     }
+
+    public void addAll(List<Earthquake> data) {
+    }
+
+    public void clear() {
+    }
+
 
 }

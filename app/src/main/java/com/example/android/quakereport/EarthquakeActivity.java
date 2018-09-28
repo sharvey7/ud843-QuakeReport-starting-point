@@ -20,23 +20,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.LoginFilter;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
 
 public class EarthquakeActivity extends AppCompatActivity {
-    private Earthquake mAdapter;
 
     private static final String LOG_TAG = EarthquakeActivity.class.getName();
+    private EarthquakeAdapter mAdapter;
     private static final String USGS_REQUEST_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=6&limit=10";
 
     @Override
@@ -50,7 +47,7 @@ public class EarthquakeActivity extends AppCompatActivity {
 
 
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
-        earthquakeListView.setAdapter((ListAdapter) mAdapter);
+        earthquakeListView.setAdapter( mAdapter);
 
 
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -77,15 +74,15 @@ public class EarthquakeActivity extends AppCompatActivity {
             List<Earthquake> result = QueryUtils.fetchEarthquakeData(urls[0]);
             return result;
         }
-
         @Override
-        protected void onPostExecute(List<Earthquake> data) {
+        protected  void onPostExecute(List<Earthquake> data){
             mAdapter.clear();
 
-            if (data != null && !data.isEmpty()) {
+            if(data != null && !data.isEmpty()){
                 mAdapter.addAll(data);
             }
         }
+
     }
 }
 
