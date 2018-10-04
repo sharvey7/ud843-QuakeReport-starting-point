@@ -25,6 +25,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -111,11 +113,13 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
        View loadingIndicator = findViewById(R.id.loading_indicator);
        loadingIndicator.setVisibility(View.GONE);
 
+        mEmptyStateTextView.setText(R.string.no_earthquakes);
+
         Log.i(LOG_TAG, "Test:");
         mAdapter.clear();
         if(earthquakes != null && !earthquakes.isEmpty()){
             mAdapter.addAll(earthquakes);
-            mEmptyStateTextView.setText(R.string.no_earthquakes);
+
         }
     }
 
@@ -142,7 +146,26 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
                 mAdapter.addAll(data);
             }*/
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu,menu); //not sure if correct?
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if(id == R.id.action_settings){
+            Intent settingsIntent = new Intent(this, Settings.class);
+            startActivity(settingsIntent);
+            return true;
         }
+        return  super.onOptionsItemSelected(item);
+    }
+        }
+
+
 
 
 
