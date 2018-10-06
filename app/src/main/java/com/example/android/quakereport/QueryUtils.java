@@ -24,7 +24,7 @@ public final class QueryUtils {
 
     private static final String LOG_TAG = QueryUtils.class.getName();
     /** Sample JSON response for a USGS query */
-    private static final String SAMPLE_JSON_RESPONSE = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10" ;
+   // private static final String SAMPLE_JSON_RESPONSE = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10" ;
 
 
 
@@ -42,13 +42,10 @@ public final class QueryUtils {
         //Create url object
         URL url = createUrl(requestUrl);
 
+
         //Perform HTTP request to the URL and receive a JSON response back
-        try {
-            Thread.sleep(2000);
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
         String jsonResponse = null;
+
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
@@ -59,7 +56,6 @@ public final class QueryUtils {
         //return the list of earthquakes
         return earthquakes;
     }
-
 
     private static URL createUrl(String stringUrl){
         URL url = null;

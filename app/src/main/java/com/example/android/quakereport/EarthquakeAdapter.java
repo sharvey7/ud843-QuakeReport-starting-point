@@ -30,9 +30,9 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
    public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent){
 
         View listItemView = convertView;
-        if(listItemView == null){
+        if(listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
-
+        }
             Earthquake currentEarthquake  = getItem(position);
 
             String originalLocation = currentEarthquake.getLocation();
@@ -73,7 +73,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
             int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude());
             magnitudeCircle.setColor(magnitudeColor);
 
-            }
+
              return  listItemView;
    }
     private int getMagnitudeColor(double magnitude){

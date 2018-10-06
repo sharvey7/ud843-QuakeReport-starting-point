@@ -63,8 +63,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         // Find a reference to the {@link ListView} in the layout
 
 
-
-
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
         earthquakeListView.setAdapter( mAdapter);
 
@@ -76,14 +74,8 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
                 Uri earthquakeUri = Uri.parse(currentEarthquake.getUrl());
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
                 startActivity(websiteIntent);
-
-
-
             }
         });
-      //  EarthquakeAsyncTask task = new EarthquakeAsyncTask();
-       // task.execute(USGS_REQUEST_URL);
-        //start asynctask to fetch data
 
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -92,7 +84,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
        if(networkInfo != null && networkInfo.isConnected()){
            LoaderManager loaderManager = getLoaderManager();
            loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
-           Log.i(LOG_TAG, "Test:");
        }
        else{
            View loadingIndicator = findViewById(R.id.loading_indicator);
@@ -104,7 +95,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle){
-        Log.i(LOG_TAG, "Test:");
         return new EarthquakeLoader(this, USGS_REQUEST_URL);
     }
 
@@ -115,7 +105,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         mEmptyStateTextView.setText(R.string.no_earthquakes);
 
-        Log.i(LOG_TAG, "Test:");
         mAdapter.clear();
         if(earthquakes != null && !earthquakes.isEmpty()){
             mAdapter.addAll(earthquakes);
@@ -129,27 +118,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     }
 
 
-   /* private class EarthquakeAsyncTask extends AsyncTask<String, Void, List<Earthquake>> {
-        @Override
-        protected List<Earthquake> doInBackground(String... urls) {
-            if (urls.length < 1 || urls[0] == null) {
-                return null;
-            }
-            List<Earthquake> result = QueryUtils.fetchEarthquakeData(urls[0]);
-            return result;
-        }*/
-      /*  @Override
-        protected  void onPostExecute(List<Earthquake> data){
-            mAdapter.clear();
-
-            if(data != null && !data.isEmpty()){
-                mAdapter.addAll(data);
-            }*/
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu,menu); //not sure if correct?
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -157,12 +128,14 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if(id == R.id.action_settings){
-            Intent settingsIntent = new Intent(this, Settings.class);
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
         }
-        return  super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
+
+
         }
 
 
