@@ -41,7 +41,8 @@ import android.content.Loader;
 import android.widget.TextView;
 
 
-public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Earthquake>> {
+public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Earthquake>>,
+SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final int EARTHQUAKE_LOADER_ID = 1;
     private static final String LOG_TAG = EarthquakeActivity.class.getName();
@@ -94,11 +95,22 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
        }
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key){
+        if(key.equals(getString(R.string.settings_min_magnitude_key)) ||
+                key.equals(getString(R.string.settings_order_by_key))){
+            mAdapter.clear();
+            mEmptyStateTextView.setVisibility(View.GONE);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
+            View loadingIndicator = findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.VISIBLE);
+            getLoaderManager().restartLoader(EARTHQUAKE_LOADER_ID, null, this );
+
+        }
+    }
 
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle){
-
-        //return new EarthquakeLoader(this, USGS_REQUEST_URL);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -113,9 +125,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
        uriBuilder.appendQueryParameter("format", "geojson");
        uriBuilder.appendQueryParameter("limit", "10");
-       uriBuilder.appendQueryParameter("minimag", minMagnitude);
+       uriBuilder.appendQueryParameter("minmag", minMagnitude);
        uriBuilder.appendQueryParameter("orderby", orderBy);
-
+//return new EarthquakeLoader(this, USGS_REQUEST_URL);
        return new EarthquakeLoader(this, uriBuilder.toString());
     }
 

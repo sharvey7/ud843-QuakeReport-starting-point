@@ -164,7 +164,6 @@ public final class QueryUtils {
             Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
         }
 
-
         // Return the list of earthquakes
         return earthquakes;
     }
